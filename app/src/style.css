@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@layer {
+    .grid-center{
+        @apply grid place-items-center
+    }
+    .error-text{
+        @apply text-red-500 text-sm
+    }
+    .success-text{
+        @apply text-green-500 font-bold 
+    }
+    .form-input{
+        @apply flex w-80 h-10 border rounded-2xl p-3 focus:border-blue-600 focus:outline-none
+    }
+    .label-input{
+        @apply absolute text-gray-400 bg-white
+        pl-1 pr-1 -top-3 left-2 text-sm
+        peer-placeholder-shown:top-2
+        peer-placeholder-shown:text-base
+        peer-focus:-top-3 peer-focus:left-2 
+        peer-focus:text-sm peer-focus:text-blue-500
+        peer-invalid:border-red-500
+        duration-200 transition-all
+    }
+    .form-btn{
+        @apply py-2 px-6 w-80 bg-green-500 hover:bg-green-600 rounded-md text-white font-bold transition duration-200 ease-in cursor-pointer
+    }
+
+    /*
+  Enter and leave animations can use different
+  durations and timing functions.
+*/
+    .slide-fade-x-enter-active {
+        transition: all 0.3s ease-out;
+    }
+    
+    .slide-fade-x-leave-active {
+        transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+    }
+    
+    .slide-fade-x-enter-from,
+    .slide-fade-x-leave-to {
+        transform: translateX(20px);
+        opacity: 0;
+    }
+    .slide-fade-y-down-enter-active {
+        transition: all 0.3s ease-out;
+    }
+    
+    .slide-fade-y-down-leave-active {
+        transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+    }
+    
+    .slide-fade-y-down-enter-from,
+    .slide-fade-y-down-leave-to {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+}
