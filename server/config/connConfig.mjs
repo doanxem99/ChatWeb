@@ -1,15 +1,19 @@
 import mongoose from "mongoose";
 import User from "../models/user_model.mjs";
 import Role from "../models/role_model.mjs";
+import Message from "../models/message_model.mjs";
+import RoomChat from "../models/roomchat_model.mjs";
 
-mongoose.Promise = global.Promise
+mongoose.Promise = global.Promise;
 const connectionString = process.env.ATLAS_URI || "";
 const DATABASE_NAME = "chatterdb";
 const db = {};
 
-db.user = User; 
+db.user = User;
 db.role = Role;
+db.message = Message;
 db.mongoose = mongoose;
+db.roomchat = RoomChat;
 db.Roles = ["user", "admin", "moderator"];
 // Connect to database name  DATABASE_NAME
 
@@ -21,19 +25,18 @@ db.mongoose
     console.log("Successfully connect to MongoDB.");
     initial();
   })
-  .catch(err => {
+  .catch((err) => {
     console.error("Connection error", err);
     process.exit();
   });
-
 
 async function initial() {
   let count = await Role.estimatedDocumentCount();
   if (count === 0) {
     await Promise.all(
-      db.Roles.map(async role => {
+      db.Roles.map(async (role) => {
         await new Role({ name: role }).save();
-      })
+      }),
     );
   }
 }

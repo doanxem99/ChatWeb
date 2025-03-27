@@ -7,7 +7,7 @@
     "start": "node index.mjs",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
-    "format": "prettier --single-quote --check .",
+    "format": "prettier --write src/",
     "prepare": "cd ../ && husky install server/.husky",
     "dev": "nodemon --experimental-modules index.mjs"
   },
@@ -20,7 +20,8 @@
     "express-async-errors": "^3.1.1",
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.11.0"
+    "mongoose": "^8.11.0",
+    "socket.io": "^4.8.1"
   },
   "devDependencies": {
     "eslint": "^9.21.0",

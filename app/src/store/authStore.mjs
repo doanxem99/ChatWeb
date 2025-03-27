@@ -1,57 +1,45 @@
-import { defineStore } from "pinia";
-import authService from "@/services/authService.mjs";
+import { defineStore } from 'pinia'
+import authService from '@/services/authService.mjs'
+import { ref } from 'vue';
 
-const user = JSON.parse(localStorage.getItem('user'))
+export const useAuthUserStore = defineStore('authuser', () => {
+  const user = ref(JSON.parse(localStorage.getItem('user')))
+  const signedIn = ref(user.value ? true : false);
 
-const initialState = user
-    ? { status: { signedIn: true }, user }
-    : { status: { signedIn: false}, user: null };
+  async function signin(userdata) {
+    return authService.signin(userdata).then(
+      (newuser) => {
+        user.value = newuser;
+        signedIn.value = true;
+        localStorage.setItem('user', JSON.stringify(user.value));
+        return Promise.resolve(user)
+      },
+      (error) => {
+        signedIn.value = false;
+        return Promise.reject(error)
+    });
+  }
 
-export const useAuthUserStore = defineStore('authuser', {
-    state: () => initialState,
-    actions: {
-        signin(user) {
-            return authService.signin(user).then(
-                user => {
-                    this.signinSuccess(user);
-                    return Promise.resolve(user);
-                },
-                error => {
-                    this.signinFailure();
-                    return Promise.reject(error);
-                }
-            ) 
-        },
-        signup(user) {
-            return authService.signup(user).then(
-                user => {
-                    this.signupSuccess();
-                    return Promise.resolve(user);
-                },
-                error => {
-                    this.signupFailure();
-                    return Promise.reject(error);
-                }
-            );
-        },
-        signinSuccess(user) {
-            this.status.signedIn = true;
-            this.user = user;
-            localStorage.setItem('user', JSON.stringify(user));
-        },
-        signinFailure() {
-            this.status.signedIn = false;
-        },
-        signout() {
-            this.status.signedIn = false;
-            this.user = null;
-            localStorage.removeItem('user');
-        },
-        signupSuccess() {
-            this.status.signedIn = false;
-        },
-        signupFailure() {
-            this.status.signedIn = false;
-        }
-    }
+  async function signup(user) {
+    return authService.signup(user).then(
+      (user) => {
+        signedIn.value = false;
+        return Promise.resolve(user)
+      },
+      (error) => {
+        signedIn.value = false;
+        this.signupFailure()
+        return Promise.reject(error)
+    });
+  }
+
+  function signout() {
+    localStorage.removeItem('user');
+    localStorage.removeItem('friends');
+    localStorage.removeItem('roomchats');
+    signedIn.value = false;
+    user.value = null;
+  }
+
+  return {signedIn, user, signin, signout, signup};
 });

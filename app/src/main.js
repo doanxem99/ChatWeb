@@ -5,10 +5,10 @@ import { createPinia } from 'pinia'
 import FontAwesome from './plugins/fontAwesome'
 import './style.css'
 
-const pinia = createPinia();
+const pinia = createPinia()
 
 const app = createApp(App)
-            .use(router)
-            .use(pinia)
-            .component("font-awesome-icon", FontAwesome)
-            .mount('#app')
+  .use(router)
+  .use(pinia)
+  .component('font-awesome-icon', FontAwesome)
+  .mount('#app')

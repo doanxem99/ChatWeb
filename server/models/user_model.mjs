@@ -1,25 +1,31 @@
 import mongoose from "mongoose";
 
 const User = mongoose.model(
-    'User',
-    new mongoose.Schema({
-        username: String,
-        password: String,
-        email: String,
-        phonenumber: String,
-        roles: [
-            {
-                type: mongoose.Types.ObjectId,
-                ref: "Role"
-            }
-        ],
-        friends: [
-            {
-                type: mongoose.Types.ObjectId,
-                ref: "User"
-            }
-        ]
-    })
+  "User",
+  new mongoose.Schema({
+    username: String,
+    password: String,
+    email: String,
+    phonenumber: String,
+    roles: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "Role",
+      },
+    ],
+    friends: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    roomchats: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "RoomChat"
+      }
+    ]
+  }),
 );
 
 export default User;
